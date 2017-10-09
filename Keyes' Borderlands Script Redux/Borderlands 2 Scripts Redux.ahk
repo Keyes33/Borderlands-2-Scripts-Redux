@@ -1,9 +1,20 @@
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; CODE ;
+;;;;;;;;
+;
+;DON'T MESS WITH THIS UNLESS YOU KNOW WHAT YOU'RE DOING
+;YOU'VE BEEN WARNED
+;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
 #SingleInstance, Force
 SendMode event
 #UseHook On
 #NoEnv
 #MaxThreadsPerHotkey 2
 SetWorkingDir %A_ScriptDir%
+
 Version=
 IniRead, Version, %A_ScriptDir%\BL2SR.ini, Version, Version
 
@@ -16,89 +27,61 @@ IfMsgBox Yes
 
 #IfWinActive ahk_exe Borderlands2.exe
 
+;;;;;;;;;;;;;;;;;;;;;;;;;
+; Variables for hotkeys ;
+;;;;;;;;;;;;;;;;;;;;;;;;;
+LastWeaponSlot:=
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;Utilities;
-;;;;;;;;;;;
-;
-;
-SteamPath=
+KeyEnter=enter
+KeyNumEnter=numpadenter
+KeyEsc=esc
+
 KeyPause=
 KeyOverlay1=
 KeyOverlay2=
 KeyChat=
-KeyEnter=enter
-KeyNumEnter=numpadenter
-KeyEsc=esc
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; Community Patch Related ;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;
 KeyConsole=
 KeyExecPatch=
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; Quick Fire and Quick Reload Related ;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;
 KeyQuickFire=
 KeyQuickReload=
-;
+
 KeyWeaponSlot1=
 KeyWeaponSlot2=
 KeyWeaponSlot3=
 KeyWeaponSlot4=
-;
+
 KeyIngameUse=
 KeyIngameDrop=
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; Timer Related (CHANGE THESE VALUES IF YOU HAVE ISSUES WITH QuickReload / QuickFire) ;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;
-;REFERENCE: 1000 miliseconds = 1 second
-;
 DelayTimerDrop=
 DelayTimerSwitch=
 DelayMouseTimer=
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+SteamPath=
 
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; CODE ;
-;;;;;;;;
-;
-;DON'T MESS WITH THIS UNLESS YOU KNOW WHAT YOU'RE DOING
-;YOU'VE BEEN WARNED
-;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; Read hotkeys from .ini file and bind them to variables ;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+IniRead, KeyPause, %A_ScriptDir%\BL2SR.ini, HotkeysUtilities, KeyPause
 IniRead, KeyOverlay1, %A_ScriptDir%\BL2SR.ini, HotkeysUtilities, KeyOverlay1
 IniRead, KeyOverlay2, %A_ScriptDir%\BL2SR.ini, HotkeysUtilities, KeyOverlay2
+IniRead, KeyChat, %A_ScriptDir%\BL2SR.ini, HotkeysUtilities, KeyChat
+
 IniRead, KeyConsole, %A_ScriptDir%\BL2SR.ini, HotkeysUtilities, KeyConsole
 IniRead, KeyExecPatch, %A_ScriptDir%\BL2SR.ini, HotkeysUtilities, KeyExecPatch
-IniRead, KeyPause, %A_ScriptDir%\BL2SR.ini, HotkeysUtilities, KeyPause
-IniRead, KeyChat, %A_ScriptDir%\BL2SR.ini, HotkeysUtilities, KeyChat
 
 IniRead, KeyQuickFire, %A_ScriptDir%\BL2SR.ini, HotkeysGame, KeyQuickFire
 IniRead, KeyQuickReload, %A_ScriptDir%\BL2SR.ini, HotkeysGame, KeyQuickReload
-IniRead, KeyIngameUse, %A_ScriptDir%\BL2SR.ini, HotkeysGame, KeyIngameUse
-IniRead, KeyIngameDrop, %A_ScriptDir%\BL2SR.ini, HotkeysGame, KeyIngameDrop
+
 IniRead, KeyWeaponSlot1, %A_ScriptDir%\BL2SR.ini, HotkeysGame, KeyWeaponSlot1
 IniRead, KeyWeaponSlot2, %A_ScriptDir%\BL2SR.ini, HotkeysGame, KeyWeaponSlot2
 IniRead, KeyWeaponSlot3, %A_ScriptDir%\BL2SR.ini, HotkeysGame, KeyWeaponSlot3
 IniRead, KeyWeaponSlot4, %A_ScriptDir%\BL2SR.ini, HotkeysGame, KeyWeaponSlot4
+
+IniRead, KeyIngameUse, %A_ScriptDir%\BL2SR.ini, HotkeysGame, KeyIngameUse
+IniRead, KeyIngameDrop, %A_ScriptDir%\BL2SR.ini, HotkeysGame, KeyIngameDrop
 
 IniRead, DelayTimerDrop, %A_ScriptDir%\BL2SR.ini, HotkeysInterval, DelayTimerDrop
 IniRead, DelayTimerSwitch, %A_ScriptDir%\BL2SR.ini, HotkeysInterval, DelayTimerSwitch
@@ -106,12 +89,17 @@ IniRead, DelayMouseTimer, %A_ScriptDir%\BL2SR.ini, HotkeysInterval, DelayMouseTi
 
 IniRead, SteamPath, %A_ScriptDir%\BL2SR.ini, SteamPath, SteamPath
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; Hotkey binding to labels ;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Hotkey, %KeyPause%, PauseScript, on
 
+Hotkey, %KeyOverlay1% & %KeyOverlay2%, DisableOnOverlay, on
 
-;Hotkey and variable declaring
-;
-LastWeaponSlot:=
- 
+Hotkey, %KeyChat%, DisableOnChat, on
+
+Hotkey, %KeyExecPatch%, ExecPatch, on
+
 Hotkey, %KeyQuickFire%, QuickFire, on
 
 Hotkey, %KeyQuickReload%, QuickReload, on
@@ -124,14 +112,6 @@ Hotkey, %KeyWeaponSlot3%, WeaponSlotCheck, on
 
 Hotkey, %KeyWeaponSlot4%, WeaponSlotCheck, on
 
-Hotkey, %KeyExecPatch%, ExecPatch, on
-
-Hotkey, %KeyPause%, PauseScript, on
-
-Hotkey, %KeyChat%, DisableOnChat, on
-
-Hotkey, %KeyOverlay1% & %KeyOverlay2%, DisableOnOverlay, on
-
 Hotkey, %KeyEnter%, EnableHotkeys, on
 
 Hotkey, %KeyNumEnter%, EnableHotkeys, on
@@ -140,6 +120,13 @@ Hotkey, %KeyEsc%, EnableHotkeys, on
 return
 
 
+;;;;;;;;;;
+; Labels ;
+;;;;;;;;;;
+
+;Quality of life scripts:
+;	Purpose is to disable most hotkeys of the script without pausing 
+;	it completely while Steam Overlay / ingame chat is open
 DisableOnOverlay:
 	send {%KeyOverlay1% down}{%KeyOverlay2% down}
 	sleep 100
@@ -197,6 +184,9 @@ DisableOnChat:
 	return
 return
 
+
+
+;Quick reload and Quick fire scripts
 QuickReload:
 	if (GetKeyState(KeyQuickReload,"P"))
 	{
@@ -209,8 +199,6 @@ QuickReload:
 	}
 return	
 
-
-
 QuickFire:
 	while (GetKeyState(KeyQuickFire, "P"))
 	{
@@ -221,7 +209,10 @@ QuickFire:
 return
 
 
-
+;Routine to check what was the last weapon selected:
+;	That makes it the second part of the Quick Reload process
+;	ensuring the script always knows which was the last weapon
+;	selected to switch back to it after pickup.
 WeaponSlotCheck:
 	if (GetKeyState(KeyWeaponSlot1,"P"))
 	{
@@ -253,7 +244,7 @@ WeaponSlotCheck:
 return
 
 
-
+;Manually execute Community Patch
 ExecPatch:
 	if (GetKeyState(KeyExecPatch, "P"))
 	{
@@ -265,7 +256,7 @@ ExecPatch:
 return
 
 
-
+;Toggle pause on the script whenever needed
 PauseScript:
 	suspend
 	pause,,1
