@@ -3,9 +3,9 @@ Simple Scripts for Borderlands 2 by Keyes
 
 Usage of this script requires agreement with the following terms: 
 
--Borderlands 2 Scripts Redux may not be used for any commercial purposes whatsoever.
+-Borderlands 2 Scripts Redux may not be used for any commercial purposes whatsoever neither be sold or charged for it's use.
 
--Redistribution of the scripts via community repos and the likes is permitted only if it is free of charge and credited to the author.
+-Redistribution of the scripts via community repos and the likes is prohibited unless stated otherwise by the author.
 
 -You may choose to only include specific parts of the scripts in your repo. 
 
