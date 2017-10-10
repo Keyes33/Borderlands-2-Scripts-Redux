@@ -2,14 +2,14 @@ WHAT IT DOES?
 
 	This is a simple script to be used in the Gearbox' 2012 title Borderlands 2. It has these purposes:
 	
-	1. Quick fire for quality of life mainly with Jakobs' Weapons:
+	1. Quick fire for quality of life:
 		As much as I appreciate this game, most of the brands gimmicks are (in my humble opinion)
-		badly thought of, specially Jakobs', which has the infamous gimmick of "firing as fast as 
+		badly thought of. Specially Jakobs', which has the infamous gimmick of "firing as fast as 
 		you can pull the trigger". While that is a valid gimmick, I feel most jakobs weapons go 
 		straight to the selling bin because of both the physical strain it requires to use it 
-		(Clicking like a crazy psycho, no pun intended) and the general lack of damage it deals 
-		compared to competing brands weapons'. This is why this script is here. It makes Jakobs' 
-		weapons usable or atleast fun to use.
+		(Clicking like an absolute lunatic) and the general lack of damage it deals compared to 
+		competing brands weapons'. This is why this script is here. It makes Jakobs' weapons 
+		usable or atleast fun to use. And hey, it can also be used to buy ammo really quick.
 		
 	2. Quick Reload for weapons that have such a slow reload they end up being useless:
 		Particular weapons or weapon brands (Looking at you, Torgue) have a snail paced reload 
@@ -30,11 +30,16 @@ WHAT IT DOES?
 		
 	
 HOW DO I USE IT?
-
+	
 	First off: This is an AutoHotkey script, as such you will need to download and install Autohotkey 
-	to use it properly.
+	to use it.
 		You can easily download it from:
 			https://autohotkey.com/download/
+			
+	After you download and install autohotkey on your computer, you'll have to set up your hotkeys in
+	the BL2SR.ini file. Don't worry, it should be a fairly simple and straightforward process. After
+	the proper set up of your keys all you need to do is execute "Borderlands 2 scripts redux.ahk"
+	file and you're good to go!
 	
 
 
