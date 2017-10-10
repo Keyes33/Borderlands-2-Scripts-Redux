@@ -1,4 +1,4 @@
-Keyes' Borderlands 2 Scripts Redux 1.5
+Keyes' Borderlands 2 Scripts Redux 1.5.1
 
 
 INSTRUCTIONS 
@@ -18,10 +18,12 @@ INSTRUCTIONS
 	you're interested. Should be quite easy to set it up perfectly.
 
 
+
+
 GENERAL ADVICE 
 
 
-	As with any AHK script, they tend to show weird behaviour when software runs on 
+	As with any AHK and apps, they tend to show weird behaviour when software runs on 
 	fullscreen. With that being said, set your Borderlands 2 to Windowed or Borderless, 
 	else you might (very likely) have issues with these scripts.
 

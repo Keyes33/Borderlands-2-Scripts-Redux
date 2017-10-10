@@ -31,6 +31,8 @@ IfMsgBox Yes
 ; Variables for hotkeys ;
 ;;;;;;;;;;;;;;;;;;;;;;;;;
 LastWeaponSlot:=
+LastLine:=
+KeyOverlayCombo:=
 
 KeyEnter=enter
 KeyNumEnter=numpadenter
@@ -65,6 +67,7 @@ SteamPath=
 ; Read hotkeys from .ini file and bind them to variables ;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 IniRead, KeyPause, %A_ScriptDir%\BL2SR.ini, HotkeysUtilities, KeyPause
+
 IniRead, KeyOverlay1, %A_ScriptDir%\BL2SR.ini, HotkeysUtilities, KeyOverlay1
 IniRead, KeyOverlay2, %A_ScriptDir%\BL2SR.ini, HotkeysUtilities, KeyOverlay2
 IniRead, KeyChat, %A_ScriptDir%\BL2SR.ini, HotkeysUtilities, KeyChat
@@ -89,12 +92,22 @@ IniRead, DelayMouseTimer, %A_ScriptDir%\BL2SR.ini, HotkeysInterval, DelayMouseTi
 
 IniRead, SteamPath, %A_ScriptDir%\BL2SR.ini, SteamPath, SteamPath
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; Hotkey binding to labels ;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;Checks how many overlay keys are used
+if KeyOverlay2 = 
+{
+	KeyOverlayCombo=%KeyOverlay1%
+}
+else
+{
+	KeyOverlayCombo=%KeyOverlay1% & %KeyOverlay2%
+}
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; Hotkey variables binding to labels ;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 Hotkey, %KeyPause%, PauseScript, on
 
-Hotkey, %KeyOverlay1% & %KeyOverlay2%, DisableOnOverlay, on
+Hotkey, %KeyOverlayCombo%, DisableOnOverlay, on
 
 Hotkey, %KeyChat%, DisableOnChat, on
 
@@ -112,11 +125,11 @@ Hotkey, %KeyWeaponSlot3%, WeaponSlotCheck, on
 
 Hotkey, %KeyWeaponSlot4%, WeaponSlotCheck, on
 
-Hotkey, %KeyEnter%, EnableHotkeys, on
+Hotkey, %KeyEnter%, CheckHotkeys, on
 
-Hotkey, %KeyNumEnter%, EnableHotkeys, on
+Hotkey, %KeyNumEnter%, CheckHotkeys, on
 
-Hotkey, %KeyEsc%, EnableHotkeys, on
+Hotkey, %KeyEsc%, CheckHotkeys, on
 return
 
 
@@ -124,9 +137,10 @@ return
 ; Labels ;
 ;;;;;;;;;;
 
-;Quality of life scripts:
-;	Purpose is to disable most hotkeys of the script without pausing 
-;	it completely while Steam Overlay / ingame chat is open
+;Overlay / Chat Check
+;	Purpose of the following isto disable most 
+;	hotkeys of the script while Steam Overlay
+;	or ingame chat is active
 DisableOnOverlay:
 	send {%KeyOverlay1% down}{%KeyOverlay2% down}
 	sleep 100
@@ -134,7 +148,7 @@ DisableOnOverlay:
 	sleep 150
 	Loop, read, %SteamPath%
 	{
-		LastLine := A_LoopReadLine
+		LastLine:=A_LoopReadLine
 	}
 	IfInString, LastLine, enable
 	{		
@@ -160,16 +174,45 @@ DisableOnOverlay:
 	}
 return
 
-EnableHotkeys:
+CheckHotkeys:
 	send {%A_ThisHotkey%}
-	Hotkey, %KeyQuickFire%, on
-	Hotkey, %KeyQuickReload%, on
-	Hotkey, %KeyWeaponSlot1%, on
-	Hotkey, %KeyWeaponSlot2%, on
-	Hotkey, %KeyWeaponSlot3%, on
-	Hotkey, %KeyWeaponSlot4%, on
-	Hotkey, %KeyExecPatch%, on
-	return
+	if (A_ThisHotkey = "esc")
+	{
+		LastLine=0
+		Hotkey, %KeyQuickFire%, on
+		Hotkey, %KeyQuickReload%, on
+		Hotkey, %KeyWeaponSlot1%, on
+		Hotkey, %KeyWeaponSlot2%, on
+		Hotkey, %KeyWeaponSlot3%, on
+		Hotkey, %KeyWeaponSlot4%, on
+		Hotkey, %KeyExecPatch%, on
+		return
+	}
+	if (A_ThisHotkey = "enter" || A_ThisHotkey = "numpadenter")
+	{
+		IfInString, LastLine, enable
+		{
+			Hotkey, %KeyQuickFire%, off
+			Hotkey, %KeyQuickReload%, off
+			Hotkey, %KeyWeaponSlot1%, off
+			Hotkey, %KeyWeaponSlot2%, off
+			Hotkey, %KeyWeaponSlot3%, off
+			Hotkey, %KeyWeaponSlot4%, off
+			Hotkey, %KeyExecPatch%, off
+			return
+		}
+		else
+		{
+			Hotkey, %KeyQuickFire%, on
+			Hotkey, %KeyQuickReload%, on
+			Hotkey, %KeyWeaponSlot1%, on
+			Hotkey, %KeyWeaponSlot2%, on
+			Hotkey, %KeyWeaponSlot3%, on
+			Hotkey, %KeyWeaponSlot4%, on
+			Hotkey, %KeyExecPatch%, on
+			return
+		}
+	}
 return
 
 DisableOnChat:
@@ -187,6 +230,7 @@ return
 
 
 ;Quick reload and Quick fire scripts
+;	The real stars of the script
 QuickReload:
 	if (GetKeyState(KeyQuickReload,"P"))
 	{
@@ -245,6 +289,7 @@ return
 
 
 ;Manually execute Community Patch
+;	Just in case the autoexec fails
 ExecPatch:
 	if (GetKeyState(KeyExecPatch, "P"))
 	{
@@ -256,7 +301,9 @@ ExecPatch:
 return
 
 
-;Toggle pause on the script whenever needed
+;Script Pause toggle 
+;   Pauses when needed
+;	resumes if desired
 PauseScript:
 	suspend
 	pause,,1
