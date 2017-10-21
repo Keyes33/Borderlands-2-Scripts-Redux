@@ -159,6 +159,7 @@ DisableOnOverlay:
 		Hotkey, %KeyWeaponSlot3%, off
 		Hotkey, %KeyWeaponSlot4%, off
 		Hotkey, %KeyExecPatch%, off
+		Hotkey, %KeyChat%, off
 		return
 	}
 	else
@@ -170,6 +171,7 @@ DisableOnOverlay:
 		Hotkey, %KeyWeaponSlot3%, on
 		Hotkey, %KeyWeaponSlot4%, on
 		Hotkey, %KeyExecPatch%, on
+		Hotkey, %KeyChat%, on
 		return
 	}
 return
@@ -186,6 +188,7 @@ CheckHotkeys:
 		Hotkey, %KeyWeaponSlot3%, on
 		Hotkey, %KeyWeaponSlot4%, on
 		Hotkey, %KeyExecPatch%, on
+		Hotkey, %KeyChat%, on
 		return
 	}
 	if (A_ThisHotkey = "enter" || A_ThisHotkey = "numpadenter")
@@ -199,6 +202,7 @@ CheckHotkeys:
 			Hotkey, %KeyWeaponSlot3%, off
 			Hotkey, %KeyWeaponSlot4%, off
 			Hotkey, %KeyExecPatch%, off
+			Hotkey, %KeyChat%, off
 			return
 		}
 		else
@@ -210,6 +214,7 @@ CheckHotkeys:
 			Hotkey, %KeyWeaponSlot3%, on
 			Hotkey, %KeyWeaponSlot4%, on
 			Hotkey, %KeyExecPatch%, on
+			Hotkey, %KeyChat%, on
 			return
 		}
 	}
@@ -224,6 +229,7 @@ DisableOnChat:
 	Hotkey, %KeyWeaponSlot3%, off
 	Hotkey, %KeyWeaponSlot4%, off
 	Hotkey, %KeyExecPatch%, off
+	Hotkey, %KeyChat%, off
 	return
 return
 
